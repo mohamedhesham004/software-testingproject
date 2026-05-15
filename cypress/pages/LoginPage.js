@@ -18,6 +18,18 @@ class LoginPage {
 
   }
 
+  get errorMessage() {
+
+    return cy.get('[data-test="login-error"]');
+
+  }
+
+  get navBar() {
+
+    return cy.get('nav');
+
+  }
+
   visit() {
 
     cy.visit('/', {

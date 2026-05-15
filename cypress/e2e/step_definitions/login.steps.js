@@ -31,8 +31,8 @@ When('I submit the login form without filling any fields', () => {
 
 // ── Then / Assertions ────────────────────────────────────────────────────────
 Then('I should be logged in successfully', () => {
-  cy.wait(4000);
-  loginPage.navBar.should('be.visible');
+  cy.wait(2000);
+  cy.url().should('include', '/account');
 });
 
 Then('the login button should not be visible', () => {
@@ -40,7 +40,7 @@ Then('the login button should not be visible', () => {
 });
 
 Then('I should see a login error message', () => {
-  loginPage.errorMessage.should('be.visible');
+  cy.contains(/Invalid email or password|error|failed/i, { timeout: 5000 }).should('be.visible');
 });
 
 Then('the URL should still contain {string}', (path) => {

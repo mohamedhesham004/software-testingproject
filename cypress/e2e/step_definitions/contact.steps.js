@@ -11,21 +11,13 @@ Given('I am on the contact page', () => {
 
 When('I fill in the contact form with valid data', () => {
 
-  cy.fixture('userData').then((data) => {
-
-    contactPage.fill(data.contactMessage);
-
-  });
+  contactPage.fill();
 
 });
 
 When('I fill in the contact form without a message', () => {
 
-  cy.fixture('userData').then((data) => {
-
-    contactPage.fillWithoutMessage(data.contactMessage);
-
-  });
+  contactPage.fillWithoutMessage();
 
 });
 
