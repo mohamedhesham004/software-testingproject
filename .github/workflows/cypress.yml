@@ -17,10 +17,10 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           # This installs dependencies and runs all specs automatically
-          browser: firefox
+          browser: chrome
         env:
           # Ensure the base URL is set correctly for CI
-          CYPRESS_BASE_URL: https://practicesoftwaretesting.com
+          CYPRESS_BASE_URL: https://www.practicesoftwaretesting.com
           # Help bypass bot detection
           CYPRESS_HEADERS: '{"Accept-Language": "en-US,en;q=0.9"}'
 
