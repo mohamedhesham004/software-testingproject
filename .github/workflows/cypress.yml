@@ -10,10 +10,20 @@ on:
       - main
       - master
 
+env:
+  # Resolve Node.js 20 deprecation warning
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   cypress-run:
     name: Run Cypress Tests
     runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        # Run tests in parallel across 2 machines
+        containers: [1, 2]
 
     steps:
       # ── 1. Checkout repository ─────────────────────────────────────────────
@@ -33,28 +43,28 @@ jobs:
 
       # ── 4. Run original 15 test cases (Part 1 spec) ───────────────────────
       - name: Run Part 1 — Original 15 Test Cases
-        run: npx cypress run --spec "cypress/e2e/practicesoftwaretesting.cy.js" --headless --browser chrome --config userAgent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+        run: npx cypress run --spec "cypress/e2e/practicesoftwaretesting.cy.js" --headless --browser chrome
         env:
-          CYPRESS_BASE_URL: https://www.practicesoftwaretesting.com
+          CYPRESS_BASE_URL: https://practicesoftwaretesting.com
 
       # ── 5. Run POM-based spec (Part 2 — Page Object Model) ────────────────
       - name: Run Part 2 — POM Spec
-        run: npx cypress run --spec "cypress/e2e/practicesoftwaretesting.pom.cy.js" --headless --browser chrome --config userAgent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+        run: npx cypress run --spec "cypress/e2e/practicesoftwaretesting.pom.cy.js" --headless --browser chrome
         env:
-          CYPRESS_BASE_URL: https://www.practicesoftwaretesting.com
+          CYPRESS_BASE_URL: https://practicesoftwaretesting.com
 
       # ── 6. Run BDD Cucumber feature files (Part 2 — BDD) ──────────────────
       - name: Run Part 2 — BDD Cucumber Features
-        run: npx cypress run --spec "cypress/e2e/features/**/*.feature" --headless --browser chrome --config userAgent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+        run: npx cypress run --spec "cypress/e2e/features/**/*.feature" --headless --browser chrome
         env:
-          CYPRESS_BASE_URL: https://www.practicesoftwaretesting.com
+          CYPRESS_BASE_URL: https://practicesoftwaretesting.com
 
       # ── 7. Upload screenshots on failure ──────────────────────────────────
       - name: Upload screenshots (on failure)
         uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: cypress-screenshots
+          name: cypress-screenshots-${{ matrix.containers }}
           path: cypress/screenshots
           if-no-files-found: ignore
 
@@ -63,7 +73,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: cypress-videos
+          name: cypress-videos-${{ matrix.containers }}
           path: cypress/videos
           if-no-files-found: ignore
 
@@ -72,6 +82,6 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: cucumber-report
+          name: cucumber-report-${{ matrix.containers }}
           path: cypress/cucumber-json
           if-no-files-found: ignore
