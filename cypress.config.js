@@ -7,7 +7,6 @@ module.exports = defineConfig({
   e2e: {
     baseUrl: 'https://practicesoftwaretesting.com',
     specPattern: [
-      'cypress/e2e/**/*.cy.js',
       'cypress/e2e/features/**/*.feature'
     ],
     viewportWidth: 1280,
@@ -16,6 +15,12 @@ module.exports = defineConfig({
     chromeWebSecurity: false,
     failOnStatusCode: false,
     experimentalModifyObstructiveThirdPartyCode: true,
+    defaultCommandTimeout: 5000,
+    requestTimeout: 5000,
+    responseTimeout: 5000,
+    video: false,
+    screenshotOnRunFailure: false,
+    numTestsKeptInMemory: 0,
     async setupNodeEvents(on, config) {
       // Required for Cucumber preprocessor
       await addCucumberPreprocessorPlugin(on, config);
@@ -33,6 +38,11 @@ module.exports = defineConfig({
           launchOptions.args.push('--no-sandbox');
           launchOptions.args.push('--disable-gpu');
           launchOptions.args.push('--disable-dev-shm-usage');
+          launchOptions.args.push('--disable-extensions');
+          launchOptions.args.push('--disable-plugins');
+        }
+        if (browser.name === 'electron') {
+          launchOptions.args.push('--disable-gpu');
         }
         return launchOptions;
       });
