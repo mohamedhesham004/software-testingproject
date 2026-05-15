@@ -42,6 +42,10 @@ class ContactPage {
       failOnStatusCode: false
     });
 
+    // Wait for contact form to render
+    cy.get('body').should('be.visible');
+    cy.get('form, [data-test*="contact"], #contact', { timeout: 15000 }).should('exist');
+
     return this;
   }
 

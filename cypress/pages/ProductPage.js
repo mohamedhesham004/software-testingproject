@@ -36,14 +36,14 @@ class ProductPage {
       failOnStatusCode: false
     });
 
-    // Wait for page to load with better timeout
-    cy.get('body', { timeout: 10000 }).should('exist');
+    // Wait for body to load
+    cy.get('body', { timeout: 15000 }).should('be.visible');
     
-    // Wait for heading to appear
-    cy.get('h1, h2', { timeout: 8000 }).should('exist');
+    // Wait for product heading to appear
+    cy.get('h1, h2, .product-title, [data-test*="product"]', { timeout: 15000 }).should('exist');
     
-    // Additional wait for dynamic content
-    cy.wait(2000);
+    // Wait for quantity input to be on page
+    cy.get('input[type="number"], [data-test*="quantity"], #quantity, #quantity-input', { timeout: 15000 }).should('exist');
 
     return this;
   }

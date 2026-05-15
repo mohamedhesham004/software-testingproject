@@ -30,7 +30,10 @@ class HomePage {
       failOnStatusCode: false
     });
 
+    // Wait for page content to fully render
     cy.get('body').should('be.visible');
+    // Wait for at least one product card to be visible
+    cy.get('[data-test="product-item"], .card, .product', { timeout: 15000 }).should('exist');
 
     return this;
   }

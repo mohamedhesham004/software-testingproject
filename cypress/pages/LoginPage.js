@@ -36,7 +36,14 @@ class LoginPage {
       failOnStatusCode: false
     });
 
-    cy.contains('Sign in').click();
+    // Wait for home page to load
+    cy.get('body').should('be.visible');
+
+    // Click Sign in button
+    cy.contains('Sign in', { timeout: 15000 }).click();
+
+    // Wait for login form to appear
+    cy.get('[data-test="login-submit"], #email, input[name="email"]', { timeout: 15000 }).should('exist');
 
     return this;
   }
