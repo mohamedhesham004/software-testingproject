@@ -1,57 +1,98 @@
-/**
- * Page Object Model — Contact Page
- * Covers: form fill, successful submission, validation errors
- */
 class ContactPage {
-  // ── Selectors ────────────────────────────────────────────
-  get firstNameInput() { return cy.get('[data-test="first-name"]'); }
-  get lastNameInput() { return cy.get('[data-test="last-name"]'); }
-  get emailInput() { return cy.get('[data-test="email"]'); }
-  get subjectSelect() { return cy.get('[data-test="subject"]'); }
-  get messageTextarea() { return cy.get('[data-test="message"]'); }
-  get submitButton() { return cy.get('[data-test="contact-submit"]'); }
-  get successBanner() { return cy.contains('Thanks for your message'); }
-  get errorAlert() { return cy.get('.alert-danger'); }
 
-  // ── Actions ──────────────────────────────────────────────
+  get firstNameInput() {
+
+    return cy.get('#first_name');
+
+  }
+
+  get lastNameInput() {
+
+    return cy.get('#last_name');
+
+  }
+
+  get emailInput() {
+
+    return cy.get('#email');
+
+  }
+
+  get subjectSelect() {
+
+    return cy.get('#subject');
+
+  }
+
+  get messageTextarea() {
+
+    return cy.get('#message');
+
+  }
+
+  get submitButton() {
+
+    return cy.contains('Send');
+
+  }
+
+  get successBanner() {
+
+    return cy.contains('Thanks for your message!');
+
+  }
+
   visit() {
-    cy.visit('/contact', { failOnStatusCode: false });
+
+    cy.visit('/contact');
+
     return this;
   }
 
   fill(data) {
-    this.firstNameInput.type(data.firstName);
-    this.lastNameInput.type(data.lastName);
-    this.emailInput.type(data.email);
-    this.subjectSelect.select(data.subject);
-    this.messageTextarea.type(data.message);
+
+    this.firstNameInput.type(data.contactName);
+
+    this.emailInput.type(data.contactEmail);
+
+    this.subjectSelect.select('Customer service');
+
+    this.messageTextarea.type(data.contactMessage);
+
     return this;
   }
 
   fillWithoutMessage(data) {
-    this.firstNameInput.type(data.firstName);
-    this.lastNameInput.type(data.lastName);
-    this.emailInput.type(data.email);
-    this.subjectSelect.select(data.subject);
+
+    this.firstNameInput.type(data.contactName);
+
+    this.emailInput.type(data.contactEmail);
+
+    this.subjectSelect.select('Customer service');
+
     return this;
   }
 
   submit() {
+
     this.submitButton.click();
+
     return this;
   }
 
-  // ── Assertions ───────────────────────────────────────────
   shouldShowSuccess() {
+
     this.successBanner.should('be.visible');
-    return this;
+
   }
 
   shouldShowValidationError() {
-    this.errorAlert.should('be.visible');
-    this.messageTextarea.should('be.visible');
-    return this;
+
+    cy.contains('Message is required')
+      .should('be.visible');
+
   }
+
 }
 
 export default new ContactPage();
