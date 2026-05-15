@@ -35,19 +35,19 @@ jobs:
       - name: Run Part 1 — Original 15 Test Cases
         run: npx cypress run --spec "cypress/e2e/practicesoftwaretesting.cy.js" --headless --browser chrome --config userAgent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
         env:
-          CYPRESS_BASE_URL: https://practicesoftwaretesting.com
+          CYPRESS_BASE_URL: https://www.practicesoftwaretesting.com
 
       # ── 5. Run POM-based spec (Part 2 — Page Object Model) ────────────────
       - name: Run Part 2 — POM Spec
         run: npx cypress run --spec "cypress/e2e/practicesoftwaretesting.pom.cy.js" --headless --browser chrome --config userAgent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
         env:
-          CYPRESS_BASE_URL: https://practicesoftwaretesting.com
+          CYPRESS_BASE_URL: https://www.practicesoftwaretesting.com
 
       # ── 6. Run BDD Cucumber feature files (Part 2 — BDD) ──────────────────
       - name: Run Part 2 — BDD Cucumber Features
         run: npx cypress run --spec "cypress/e2e/features/**/*.feature" --headless --browser chrome --config userAgent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
         env:
-          CYPRESS_BASE_URL: https://practicesoftwaretesting.com
+          CYPRESS_BASE_URL: https://www.practicesoftwaretesting.com
 
       # ── 7. Upload screenshots on failure ──────────────────────────────────
       - name: Upload screenshots (on failure)
