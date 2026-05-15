@@ -4,11 +4,11 @@
  */
 class ProductPage {
   // ── Selectors ────────────────────────────────────────────
-  get heading()          { return cy.get('h1, h2'); }
-  get addToCartButton()  { return cy.get('[data-test="add-to-cart"]'); }
-  get quantityInput()    { return cy.get('[data-test="quantity"]'); }
-  get relatedProducts()  { return cy.get('.card'); }
-  get cartQuantityBadge(){ return cy.get('[data-test="cart-quantity"]'); }
+  get heading() { return cy.get('h1, h2'); }
+  get addToCartButton() { return cy.get('[data-test="add-to-cart"]'); }
+  get quantityInput() { return cy.get('[data-test="quantity"]'); }
+  get relatedProducts() { return cy.get('.card'); }
+  get cartQuantityBadge() { return cy.get('[data-test="cart-quantity"]'); }
 
   // ── Actions ──────────────────────────────────────────────
   visit(productId) {

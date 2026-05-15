@@ -4,12 +4,12 @@
  */
 class HomePage {
   // ── Selectors ────────────────────────────────────────────
-  get searchInput()    { return cy.get('[data-test="search-query"]'); }
-  get searchButton()   { return cy.get('[data-test="search-submit"]'); }
-  get sortDropdown()   { return cy.get('[data-test="sort"]'); }
-  get productCards()   { return cy.get('.card'); }
+  get searchInput() { return cy.get('[data-test="search-query"]'); }
+  get searchButton() { return cy.get('[data-test="search-submit"]'); }
+  get sortDropdown() { return cy.get('[data-test="sort"]'); }
+  get productCards() { return cy.get('.card'); }
   get firstCardTitle() { return cy.get('.card-title').first(); }
-  get navBar()         { return cy.get('nav'); }
+  get navBar() { return cy.get('nav'); }
 
   // ── Actions ──────────────────────────────────────────────
   visit() {
