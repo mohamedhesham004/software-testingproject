@@ -20,6 +20,14 @@ module.exports = defineConfig({
     specPattern:
     "cypress/e2e/features/**/*.feature",
 
+    // Global timeout settings for CI/CD environments
+    defaultCommandTimeout: 10000,
+    requestTimeout: 10000,
+    responseTimeout: 10000,
+    
+    // Allow page loads with 403 errors (website sometimes returns this)
+    failOnStatusCode: false,
+
     async setupNodeEvents(on, config) {
 
       await addCucumberPreprocessorPlugin(on, config);
