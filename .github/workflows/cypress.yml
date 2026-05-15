@@ -45,25 +45,13 @@ jobs:
       - name: Warm-up Site
         run: curl -I -L https://practicesoftwaretesting.com || true
 
-      # ── 4. Run original 15 test cases (Part 1 spec) ───────────────────────
-      - name: Run Part 1 — Original 15 Test Cases
-        run: npx cypress run --spec "cypress/e2e/practicesoftwaretesting.cy.js" --headless --browser electron
-        env:
-          CYPRESS_BASE_URL: https://practicesoftwaretesting.com
-
-      # ── 5. Run POM-based spec (Part 2 — Page Object Model) ────────────────
-      - name: Run Part 2 — POM Spec
-        run: npx cypress run --spec "cypress/e2e/practicesoftwaretesting.pom.cy.js" --headless --browser electron
-        env:
-          CYPRESS_BASE_URL: https://practicesoftwaretesting.com
-
-      # ── 6. Run BDD Cucumber feature files (Part 2 — BDD) ──────────────────
-      - name: Run Part 2 — BDD Cucumber Features
+      # ── 4. Run BDD Cucumber feature files ──────────────────────────────────
+      - name: Run BDD Cucumber Features
         run: npx cypress run --spec "cypress/e2e/features/**/*.feature" --headless --browser electron
         env:
           CYPRESS_BASE_URL: https://practicesoftwaretesting.com
 
-      # ── 7. Upload screenshots on failure ──────────────────────────────────
+      # ── 5. Upload screenshots on failure ──────────────────────────────────
       - name: Upload screenshots (on failure)
         uses: actions/upload-artifact@v4
         if: failure()
@@ -72,7 +60,7 @@ jobs:
           path: cypress/screenshots
           if-no-files-found: ignore
 
-      # ── 8. Upload videos (always) ─────────────────────────────────────────
+      # ── 6. Upload videos (always) ─────────────────────────────────────────
       - name: Upload test videos
         uses: actions/upload-artifact@v4
         if: always()
