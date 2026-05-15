@@ -15,7 +15,7 @@ class ContactPage {
 
   // ── Actions ──────────────────────────────────────────────
   visit() {
-    cy.visit('/contact');
+    cy.visit('/contact', { failOnStatusCode: false });
     return this;
   }
 

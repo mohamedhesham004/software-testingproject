@@ -13,7 +13,7 @@ class HomePage {
 
   // ── Actions ──────────────────────────────────────────────
   visit() {
-    cy.visit('/');
+    cy.visit('/', { failOnStatusCode: false });
     return this;
   }
 

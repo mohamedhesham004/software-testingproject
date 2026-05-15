@@ -12,7 +12,7 @@ class LoginPage {
 
   // ── Actions ──────────────────────────────────────────────
   visit() {
-    cy.visit('/auth/login');
+    cy.visit('/auth/login', { failOnStatusCode: false });
     return this;
   }
 

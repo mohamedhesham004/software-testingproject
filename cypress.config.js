@@ -21,6 +21,7 @@ module.exports = defineConfig({
     video: false,
     screenshotOnRunFailure: false,
     numTestsKeptInMemory: 0,
+    allowCypressEnv: false,
     async setupNodeEvents(on, config) {
       // Required for Cucumber preprocessor
       await addCucumberPreprocessorPlugin(on, config);
