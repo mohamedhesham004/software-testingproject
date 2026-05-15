@@ -1,0 +1,19 @@
+{
+  "validUser": {
+    "email": "customer@practicesoftwaretesting.com",
+    "password": "welcome01",
+    "firstName": "John",
+    "lastName": "Doe"
+  },
+  "invalidUser": {
+    "email": "wrong@test.com",
+    "password": "badpassword"
+  },
+  "contactMessage": {
+    "firstName": "Test",
+    "lastName": "User",
+    "email": "testuser@mail.com",
+    "subject": "Customer service",
+    "message": "This is an automated test message for QA purposes."
+  }
+}
