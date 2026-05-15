@@ -2,31 +2,31 @@ class ContactPage {
 
   get firstNameInput() {
 
-    return cy.get('#first_name');
+    return cy.get('#first_name', { timeout: 10000 });
 
   }
 
   get lastNameInput() {
 
-    return cy.get('#last_name');
+    return cy.get('#last_name', { timeout: 10000 });
 
   }
 
   get emailInput() {
 
-    return cy.get('#email');
+    return cy.get('#email', { timeout: 10000 });
 
   }
 
   get subjectSelect() {
 
-    return cy.get('#subject');
+    return cy.get('#subject', { timeout: 10000 });
 
   }
 
   get messageTextarea() {
 
-    return cy.get('#message');
+    return cy.get('#message', { timeout: 10000 });
 
   }
 

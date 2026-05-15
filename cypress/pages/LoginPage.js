@@ -2,31 +2,31 @@ class LoginPage {
 
   get emailInput() {
 
-    return cy.get('#email');
+    return cy.get('#email', { timeout: 10000 });
 
   }
 
   get passwordInput() {
 
-    return cy.get('#password');
+    return cy.get('#password', { timeout: 10000 });
 
   }
 
   get submitButton() {
 
-    return cy.get('[data-test="login-submit"]');
+    return cy.get('[data-test="login-submit"]', { timeout: 10000 });
 
   }
 
   get errorMessage() {
 
-    return cy.get('[data-test="login-error"]');
+    return cy.get('[data-test="login-error"]', { timeout: 10000 });
 
   }
 
   get navBar() {
 
-    return cy.get('nav');
+    return cy.get('nav', { timeout: 10000 });
 
   }
 

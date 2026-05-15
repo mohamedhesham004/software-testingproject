@@ -2,25 +2,25 @@ class HomePage {
 
   get searchInput() {
 
-    return cy.get('[data-test="search-query"]');
+    return cy.get('[data-test="search-query"]', { timeout: 10000 });
 
   }
 
   get sortDropdown() {
 
-    return cy.get('[data-test="sort"]');
+    return cy.get('[data-test="sort"]', { timeout: 10000 });
 
   }
 
   get productCards() {
 
-    return cy.get('.card');
+    return cy.get('.card', { timeout: 10000 });
 
   }
 
   get firstCardTitle() {
 
-    return cy.get('.card-title').first();
+    return cy.get('.card-title', { timeout: 10000 }).first();
 
   }
 

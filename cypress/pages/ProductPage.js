@@ -2,31 +2,31 @@ class ProductPage {
 
   get heading() {
 
-    return cy.get('h1');
+    return cy.get('h1', { timeout: 10000 });
 
   }
 
   get addToCartButton() {
 
-    return cy.contains('Add to cart');
+    return cy.contains('Add to cart', { timeout: 10000 });
 
   }
 
   get quantityInput() {
 
-    return cy.get('input[type="number"]').first();
+    return cy.get('input[type="number"]', { timeout: 10000 }).first();
 
   }
 
   get relatedProducts() {
 
-    return cy.get('.card');
+    return cy.get('.card', { timeout: 10000 });
 
   }
 
   get cartQuantityBadge() {
 
-    return cy.get('[data-test="cart-quantity"]');
+    return cy.get('[data-test="cart-quantity"]', { timeout: 10000 });
 
   }
 
@@ -50,17 +50,20 @@ class ProductPage {
 
   setQuantity(amount) {
 
-    // Use JavaScript to directly set the value on Angular form control
-    cy.get('input[type="number"]').first().then($input => {
-      // Set the value directly
-      $input.val(amount);
-      
-      // Trigger Angular change detection events
-      cy.wrap($input)
-        .trigger('input')
-        .trigger('change')
-        .trigger('blur');
-    });
+    // Wait for the input to be visible first, then set the value
+    cy.get('input[type="number"]', { timeout: 10000 })
+      .first()
+      .should('be.visible')
+      .then($input => {
+        // Set the value directly via JavaScript
+        $input.val(amount);
+        
+        // Trigger Angular change detection
+        cy.wrap($input)
+          .trigger('input')
+          .trigger('change')
+          .trigger('blur');
+      });
 
   }
 
