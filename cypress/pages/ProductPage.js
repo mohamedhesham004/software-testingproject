@@ -14,8 +14,7 @@ class ProductPage {
 
   get quantityInput() {
 
-    // More flexible selector that searches for quantity input
-    return cy.get('input[type="number"], input[name*="quantity"], input[id*="quantity"]', { timeout: 8000 }).first();
+    return cy.get('input[type="number"]').first();
 
   }
 
@@ -51,19 +50,26 @@ class ProductPage {
 
   setQuantity(amount) {
 
-    // Try multiple approaches to find and set quantity
+    // For Angular form controls, we need to select all text first, then type
     cy.get('body').then(($body) => {
-      // Try input[type="number"] first
       if ($body.find('input[type="number"]').length > 0) {
-        cy.get('input[type="number"]').first().clear().type(amount);
+        // Select all text first with Ctrl+A, then type to replace
+        cy.get('input[type="number"]').first()
+          .invoke('val', '')  // Clear the value directly
+          .trigger('input')   // Trigger Angular change detection
+          .type(amount);
       } 
-      // Try any input with quantity in name/id
       else if ($body.find('input[name*="quantity"], input[id*="quantity"]').length > 0) {
-        cy.get('input[name*="quantity"], input[id*="quantity"]').first().clear().type(amount);
+        cy.get('input[name*="quantity"], input[id*="quantity"]').first()
+          .invoke('val', '')
+          .trigger('input')
+          .type(amount);
       }
-      // Try finding quantity via label
       else {
-        cy.contains(/quantity|qty/i).parent().find('input').first().clear().type(amount);
+        cy.contains(/quantity|qty/i).parent().find('input').first()
+          .invoke('val', '')
+          .trigger('input')
+          .type(amount);
       }
     });
 
@@ -77,17 +83,8 @@ class ProductPage {
 
   shouldHaveQuantity(amount) {
 
-    // Check the quantity value with fallback selectors
-    cy.get('body').then(($body) => {
-      if ($body.find('input[type="number"]').length > 0) {
-        cy.get('input[type="number"]').first().should('have.value', amount);
-      } else if ($body.find('input[name*="quantity"], input[id*="quantity"]').length > 0) {
-        cy.get('input[name*="quantity"], input[id*="quantity"]').first().should('have.value', amount);
-      } else {
-        // Just verify the page is still there
-        cy.get('h1, h2').should('be.visible');
-      }
-    });
+    // Check the quantity value - use the same selector as setQuantity
+    cy.get('input[type="number"]').first().should('have.value', amount);
 
   }
 
