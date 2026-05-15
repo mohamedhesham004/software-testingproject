@@ -50,28 +50,11 @@ class ProductPage {
 
   setQuantity(amount) {
 
-    // For Angular form controls, we need to select all text first, then type
-    cy.get('body').then(($body) => {
-      if ($body.find('input[type="number"]').length > 0) {
-        // Select all text first with Ctrl+A, then type to replace
-        cy.get('input[type="number"]').first()
-          .invoke('val', '')  // Clear the value directly
-          .trigger('input')   // Trigger Angular change detection
-          .type(amount);
-      } 
-      else if ($body.find('input[name*="quantity"], input[id*="quantity"]').length > 0) {
-        cy.get('input[name*="quantity"], input[id*="quantity"]').first()
-          .invoke('val', '')
-          .trigger('input')
-          .type(amount);
-      }
-      else {
-        cy.contains(/quantity|qty/i).parent().find('input').first()
-          .invoke('val', '')
-          .trigger('input')
-          .type(amount);
-      }
-    });
+    // Use keyboard shortcuts to select all and replace - works with Angular controls
+    cy.get('input[type="number"]').first()
+      .focus()
+      .type('{selectall}')
+      .type(amount, { delay: 50 });
 
   }
 
