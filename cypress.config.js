@@ -18,7 +18,7 @@ module.exports = defineConfig({
     baseUrl: "https://practicesoftwaretesting.com",
 
     specPattern:
-    "cypress/e2e/features/*/.feature",
+    "cypress/e2e/features/**/*.feature",
 
     async setupNodeEvents(on, config) {
 
