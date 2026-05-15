@@ -21,6 +21,8 @@ jobs:
         env:
           # Ensure the base URL is set correctly for CI
           CYPRESS_BASE_URL: https://practicesoftwaretesting.com
+          # Help bypass bot detection
+          CYPRESS_HEADERS: '{"Accept-Language": "en-US,en;q=0.9"}'
 
       - name: Upload Screenshots
         uses: actions/upload-artifact@v4
