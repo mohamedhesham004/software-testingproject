@@ -50,11 +50,12 @@ class ProductPage {
 
   setQuantity(amount) {
 
-    // Use keyboard shortcuts to select all and replace - works with Angular controls
+    // For Angular number inputs, manually clear by selecting all with keyboard and deleting
     cy.get('input[type="number"]').first()
       .focus()
-      .type('{selectall}')
-      .type(amount, { delay: 50 });
+      .type('{ctrl+a}')  // Select all with Ctrl+A
+      .type('{backspace}')  // Delete selected text
+      .type(amount);
 
   }
 
