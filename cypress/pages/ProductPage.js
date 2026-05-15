@@ -50,12 +50,17 @@ class ProductPage {
 
   setQuantity(amount) {
 
-    // For Angular number inputs, manually clear by selecting all with keyboard and deleting
-    cy.get('input[type="number"]').first()
-      .focus()
-      .type('{ctrl+a}')  // Select all with Ctrl+A
-      .type('{backspace}')  // Delete selected text
-      .type(amount);
+    // Use JavaScript to directly set the value on Angular form control
+    cy.get('input[type="number"]').first().then($input => {
+      // Set the value directly
+      $input.val(amount);
+      
+      // Trigger Angular change detection events
+      cy.wrap($input)
+        .trigger('input')
+        .trigger('change')
+        .trigger('blur');
+    });
 
   }
 
