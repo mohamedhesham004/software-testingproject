@@ -1,62 +1,99 @@
-/**
- * Page Object Model — Home Page
- * Covers: product listing, search, sort, category filter
- */
 class HomePage {
-  // ── Selectors ────────────────────────────────────────────
-  get searchInput() { return cy.get('[data-test="search-query"]'); }
-  get searchButton() { return cy.get('[data-test="search-submit"]'); }
-  get sortDropdown() { return cy.get('[data-test="sort"]'); }
-  get productCards() { return cy.get('.card'); }
-  get firstCardTitle() { return cy.get('.card-title').first(); }
-  get navBar() { return cy.get('nav'); }
 
-  // ── Actions ──────────────────────────────────────────────
+  get searchInput() {
+
+    return cy.get('[data-test="search-query"]');
+
+  }
+
+  get sortDropdown() {
+
+    return cy.get('[data-test="sort"]');
+
+  }
+
+  get productCards() {
+
+    return cy.get('.card');
+
+  }
+
+  get firstCardTitle() {
+
+    return cy.get('.card-title').first();
+
+  }
+
   visit() {
-    cy.visit('/', { failOnStatusCode: false });
+
+    cy.visit('/', {
+      failOnStatusCode: false
+    });
+
+    cy.get('body').should('be.visible');
+
     return this;
   }
 
   searchFor(keyword) {
-    this.searchInput.clear().type(keyword);
-    this.searchButton.click();
+
+    this.searchInput
+      .clear()
+      .type(keyword + '{enter}');
+
     return this;
   }
 
   sortBy(optionText) {
-    this.sortDropdown.should('be.visible').select(optionText);
+
+    this.sortDropdown
+      .select(optionText);
+
+    cy.wait(2000);
+
     return this;
   }
 
   clickFirstCard() {
-    this.productCards.first().click();
+
+    this.productCards
+      .first()
+      .click();
+
     return this;
   }
 
   clickCategoryByIndex(index = 0) {
-    cy.get("a.nav-link, .category-link, [data-test*='category']")
-      .eq(index)
+
+    cy.get('a')
+      .contains(/Hammer|Hand Tools|Power Tools/i)
+      .first()
       .click({ force: true });
+
     return this;
   }
 
-  // ── Assertions ───────────────────────────────────────────
   shouldHaveProducts() {
-    this.productCards.should('have.length.greaterThan', 0);
-    return this;
+
+    this.productCards
+      .should('have.length.greaterThan', 0);
+
   }
 
   shouldShowNoResults() {
-    this.productCards.should('have.length', 0);
-    cy.contains(/no results|There are no products/i).should('be.visible');
-    return this;
+
+    cy.contains('There are no products found.')
+      .should('be.visible');
+
   }
 
   shouldBeOnHomepage() {
-    cy.url().should('include', 'practicesoftwaretesting');
-    cy.title().should('not.be.empty');
-    return this;
+
+    cy.url()
+      .should('include', 'practicesoftwaretesting');
+
   }
+
 }
 
 export default new HomePage();

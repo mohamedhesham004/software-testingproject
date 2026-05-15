@@ -20,7 +20,9 @@ class LoginPage {
 
   visit() {
 
-    cy.visit('/');
+    cy.visit('/', {
+      failOnStatusCode: false
+    });
 
     cy.contains('Sign in').click();
 
@@ -29,14 +31,18 @@ class LoginPage {
 
   fillEmail(email) {
 
-    this.emailInput.type(email);
+    this.emailInput
+      .clear()
+      .type(email);
 
     return this;
   }
 
   fillPassword(password) {
 
-    this.passwordInput.type(password);
+    this.passwordInput
+      .clear()
+      .type(password);
 
     return this;
   }

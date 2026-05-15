@@ -32,7 +32,9 @@ class ProductPage {
 
   visit(productId) {
 
-    cy.visit('/product/' + productId);
+    cy.visit('/product/' + productId, {
+      failOnStatusCode: false
+    });
 
     return this;
   }

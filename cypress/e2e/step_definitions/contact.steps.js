@@ -13,7 +13,7 @@ When('I fill in the contact form with valid data', () => {
 
   cy.fixture('userData').then((data) => {
 
-    contactPage.fill(data);
+    contactPage.fill(data.contactMessage);
 
   });
 
@@ -23,7 +23,7 @@ When('I fill in the contact form without a message', () => {
 
   cy.fixture('userData').then((data) => {
 
-    contactPage.fillWithoutMessage(data);
+    contactPage.fillWithoutMessage(data.contactMessage);
 
   });
 

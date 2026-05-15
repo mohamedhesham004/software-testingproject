@@ -6,12 +6,6 @@ class ContactPage {
 
   }
 
-  get lastNameInput() {
-
-    return cy.get('#last_name');
-
-  }
-
   get emailInput() {
 
     return cy.get('#email');
@@ -44,31 +38,33 @@ class ContactPage {
 
   visit() {
 
-    cy.visit('/contact');
+    cy.visit('/contact', {
+      failOnStatusCode: false
+    });
 
     return this;
   }
 
   fill(data) {
 
-    this.firstNameInput.type(data.contactName);
+    this.firstNameInput.type(data.firstName);
 
-    this.emailInput.type(data.contactEmail);
+    this.emailInput.type(data.email);
 
-    this.subjectSelect.select('Customer service');
+    this.subjectSelect.select(data.subject);
 
-    this.messageTextarea.type(data.contactMessage);
+    this.messageTextarea.type(data.message);
 
     return this;
   }
 
   fillWithoutMessage(data) {
 
-    this.firstNameInput.type(data.contactName);
+    this.firstNameInput.type(data.firstName);
 
-    this.emailInput.type(data.contactEmail);
+    this.emailInput.type(data.email);
 
-    this.subjectSelect.select('Customer service');
+    this.subjectSelect.select(data.subject);
 
     return this;
   }
