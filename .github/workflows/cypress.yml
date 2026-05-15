@@ -5,75 +5,54 @@ on:
     branches:
       - main
       - master
+
   pull_request:
     branches:
       - main
       - master
 
 env:
-  # Resolve Node.js 20 deprecation warning
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   cypress-run:
+
     name: Run Cypress Tests
+
     runs-on: ubuntu-latest
 
-    strategy:
-      fail-fast: false
-      matrix:
-        # Run tests in parallel across 2 machines
-        containers: [1, 2]
-
     steps:
-      # ── 1. Checkout repository ─────────────────────────────────────────────
+
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # ── 2. Set up Node.js ──────────────────────────────────────────────────
-      - name: Setup Node.js 20
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: 20
+          cache: npm
 
-      # ── 3. Install dependencies ────────────────────────────────────────────
       - name: Install dependencies
         run: npm ci
 
-      # ── 3.5 Warm-up request ────────────────────────────────────────────────
-      - name: Warm-up Site
+      - name: Warm-up Website
         run: curl -I -L https://practicesoftwaretesting.com || true
 
-      # ── 4. Run BDD Cucumber feature files ──────────────────────────────────
-      - name: Run BDD Cucumber Features
-        run: npx cypress run --spec "cypress/e2e/features/**/*.feature" --headless --browser electron
-        env:
-          CYPRESS_BASE_URL: https://practicesoftwaretesting.com
+      - name: Run Cypress Tests
+        run: npx cypress run --headless --browser electron
 
-      # ── 5. Upload screenshots on failure ──────────────────────────────────
-      - name: Upload screenshots (on failure)
+      - name: Upload screenshots
         uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: cypress-screenshots-${{ matrix.containers }}
+          name: screenshots
           path: cypress/screenshots
           if-no-files-found: ignore
 
-      # ── 6. Upload videos (always) ─────────────────────────────────────────
-      - name: Upload test videos
+      - name: Upload videos
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: cypress-videos-${{ matrix.containers }}
+          name: videos
           path: cypress/videos
-          if-no-files-found: ignore
-
-      # ── 9. Upload Cucumber JSON report ────────────────────────────────────
-      - name: Upload Cucumber report
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: cucumber-report-${{ matrix.containers }}
-          path: cypress/cucumber-json
           if-no-files-found: ignore
