@@ -26,8 +26,20 @@ Given('I am logged in as a customer', () => {
 
 // ── When / Actions ───────────────────────────────────────────────────────────
 When('I set the quantity to {int}', (amount) => {
-  // Wait for page to fully load before setting quantity
-  cy.wait(2000);
+  // Wait longer for quantity input to appear
+  cy.get('body').then(($body) => {
+    // Log what inputs exist on page for debugging
+    cy.log('Looking for quantity input...');
+    
+    if ($body.find('input[type="number"]').length > 0) {
+      cy.log('Found input[type="number"]');
+    } else if ($body.find('input[name*="quantity"], input[id*="quantity"]').length > 0) {
+      cy.log('Found input with quantity in name/id');
+    } else {
+      cy.log('No quantity input found, searching near label');
+    }
+  });
+  
   productPage.setQuantity(amount);
 });
 
