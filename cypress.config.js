@@ -16,9 +16,6 @@ module.exports = defineConfig({
     ],
     viewportWidth: 1280,
     viewportHeight: 720,
-    userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
-    chromeWebSecurity: false,
-    experimentalModifyObstructiveThirdPartyCode: true,
     async setupNodeEvents(on, config) {
       // Required for Cucumber preprocessor
       await addCucumberPreprocessorPlugin(on, config);
@@ -30,16 +27,11 @@ module.exports = defineConfig({
         })
       );
 
-      on('before:browser:launch', (browser = {}, launchOptions) => {
-        if (browser.family === 'chromium' && browser.name !== 'electron') {
-          launchOptions.args.push('--no-sandbox');
-          launchOptions.args.push('--disable-gpu');
-        }
-        return launchOptions;
-      });
-
       // IMPORTANT: return config so cucumber can write its own config
       return config;
+    },
+  },
+}); return config;
     },
   },
 });
