@@ -27,12 +27,14 @@ module.exports = defineConfig({
         })
       );
 
-      // CI specific flags
+      // CI specific flags for Chromium browsers
       on('before:browser:launch', (browser = {}, launchOptions) => {
         if (browser.family === 'chromium' && browser.name !== 'electron') {
           launchOptions.args.push('--no-sandbox');
           launchOptions.args.push('--disable-gpu');
           launchOptions.args.push('--disable-dev-shm-usage');
+          launchOptions.args.push('--disable-blink-features=AutomationControlled');
+          launchOptions.args.push('--disable-infobars');
         }
         return launchOptions;
       });
