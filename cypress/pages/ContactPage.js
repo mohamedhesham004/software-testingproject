@@ -42,28 +42,41 @@ class ContactPage {
       failOnStatusCode: false
     });
 
+    // Wait for form to be visible
+    cy.get('body').should('be.visible');
+    
+    // Wait for first name input to be ready
+    this.firstNameInput.should('exist');
+
     return this;
   }
 
   fill(data) {
 
-    this.firstNameInput.type(data.firstName);
+    // Clear and fill first name
+    this.firstNameInput.clear().type(data.firstName, { delay: 50 });
 
-    this.emailInput.type(data.email);
+    // Clear and fill email
+    this.emailInput.clear().type(data.email, { delay: 50 });
 
+    // Select subject
     this.subjectSelect.select(data.subject);
 
-    this.messageTextarea.type(data.message);
+    // Clear and fill message
+    this.messageTextarea.clear().type(data.message, { delay: 50 });
 
     return this;
   }
 
   fillWithoutMessage(data) {
 
-    this.firstNameInput.type(data.firstName);
+    // Clear and fill first name
+    this.firstNameInput.clear().type(data.firstName, { delay: 50 });
 
-    this.emailInput.type(data.email);
+    // Clear and fill email
+    this.emailInput.clear().type(data.email, { delay: 50 });
 
+    // Select subject
     this.subjectSelect.select(data.subject);
 
     return this;
@@ -71,7 +84,11 @@ class ContactPage {
 
   submit() {
 
-    this.submitButton.click();
+    // Ensure submit button is visible before clicking
+    this.submitButton.should('be.visible').click({ force: true });
+
+    // Wait a bit for form submission to complete
+    cy.wait(1000);
 
     return this;
   }
