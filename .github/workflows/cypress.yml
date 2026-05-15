@@ -11,13 +11,9 @@ on:
       - main
       - master
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
-  cypress-run:
 
-    name: Run Cypress Tests
+  cypress-run:
 
     runs-on: ubuntu-latest
 
@@ -30,29 +26,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
 
       - name: Install dependencies
-        run: npm ci
-
-      - name: Warm-up Website
-        run: curl -I -L https://practicesoftwaretesting.com || true
+        run: npm install
 
       - name: Run Cypress Tests
-        run: npx cypress run --headless --browser electron
-
-      - name: Upload screenshots
-        uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: screenshots
-          path: cypress/screenshots
-          if-no-files-found: ignore
-
-      - name: Upload videos
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: videos
-          path: cypress/videos
-          if-no-files-found: ignore
+        run: npx cypress run --browser chrome
