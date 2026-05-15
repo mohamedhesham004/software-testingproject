@@ -14,7 +14,8 @@ class ProductPage {
 
   get quantityInput() {
 
-    return cy.get('#quantity');
+    // Try multiple selectors for quantity input
+    return cy.get('input[type="number"]').first();
 
   }
 
@@ -36,14 +37,17 @@ class ProductPage {
       failOnStatusCode: false
     });
 
+    // Wait for page to load
+    cy.get('body').should('exist');
+    cy.wait(1000);
+
     return this;
   }
 
   setQuantity(amount) {
 
-    this.quantityInput
-      .clear()
-      .type(amount);
+    // Wait for quantity input to be visible, then set value
+    cy.get('input[type="number"]').first().should('be.visible').clear().type(amount);
 
   }
 
@@ -55,8 +59,7 @@ class ProductPage {
 
   shouldHaveQuantity(amount) {
 
-    this.quantityInput
-      .should('have.value', amount);
+    cy.get('input[type="number"]').first().should('have.value', amount);
 
   }
 

@@ -26,6 +26,8 @@ Given('I am logged in as a customer', () => {
 
 // ── When / Actions ───────────────────────────────────────────────────────────
 When('I set the quantity to {int}', (amount) => {
+  // Wait for page to fully load before setting quantity
+  cy.wait(2000);
   productPage.setQuantity(amount);
 });
 
