@@ -27,6 +27,14 @@ module.exports = defineConfig({
         })
       );
 
+      on('before:browser:launch', (browser = {}, launchOptions) => {
+        if (browser.family === 'chromium' && browser.name !== 'electron') {
+          launchOptions.args.push('--no-sandbox');
+          launchOptions.args.push('--disable-gpu');
+        }
+        return launchOptions;
+      });
+
       // IMPORTANT: return config so cucumber can write its own config
       return config;
     },

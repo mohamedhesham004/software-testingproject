@@ -2,82 +2,36 @@ name: Cypress E2E Tests
 
 on:
   push:
-    branches:
-      - main
-      - master
+    branches: [ main, master ]
   pull_request:
-    branches:
-      - main
-      - master
+    branches: [ main, master ]
 
 jobs:
   cypress-run:
-    name: Run Cypress Tests
     runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: false
-      matrix:
-        # Run tests in parallel across 2 machines
-        containers: [1, 2]
-
     steps:
-      # ── 1. Checkout repository ─────────────────────────────────────────────
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      # ── 2. Set up Node.js ──────────────────────────────────────────────────
-      - name: Setup Node.js 20
-        uses: actions/setup-node@v4
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
         with:
-          node-version: '20'
-          cache: 'npm'
-
-      # ── 3. Install dependencies ────────────────────────────────────────────
-      - name: Install dependencies
-        run: npm ci
-
-      # ── 4. Run original 15 test cases (Part 1 spec) ───────────────────────
-      - name: Run Part 1 — Original 15 Test Cases
-        run: npx cypress run --spec "cypress/e2e/practicesoftwaretesting.cy.js" --headless --browser chrome
+          # This installs dependencies and runs all specs automatically
+          browser: chrome
         env:
+          # Ensure the base URL is set correctly for CI
           CYPRESS_BASE_URL: https://practicesoftwaretesting.com
 
-      # ── 5. Run POM-based spec (Part 2 — Page Object Model) ────────────────
-      - name: Run Part 2 — POM Spec
-        run: npx cypress run --spec "cypress/e2e/practicesoftwaretesting.pom.cy.js" --headless --browser chrome
-        env:
-          CYPRESS_BASE_URL: https://practicesoftwaretesting.com
-
-      # ── 6. Run BDD Cucumber feature files (Part 2 — BDD) ──────────────────
-      - name: Run Part 2 — BDD Cucumber Features
-        run: npx cypress run --spec "cypress/e2e/features/**/*.feature" --headless --browser chrome
-        env:
-          CYPRESS_BASE_URL: https://practicesoftwaretesting.com
-
-      # ── 7. Upload screenshots on failure ──────────────────────────────────
-      - name: Upload screenshots (on failure)
+      - name: Upload Screenshots
         uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: cypress-screenshots-${{ matrix.containers }}
+          name: cypress-screenshots
           path: cypress/screenshots
-          if-no-files-found: ignore
 
-      # ── 8. Upload videos (always) ─────────────────────────────────────────
-      - name: Upload test videos
+      - name: Upload Videos
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: cypress-videos-${{ matrix.containers }}
+          name: cypress-videos
           path: cypress/videos
-          if-no-files-found: ignore
-
-      # ── 9. Upload Cucumber JSON report ────────────────────────────────────
-      - name: Upload Cucumber report
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: cucumber-report-${{ matrix.containers }}
-          path: cypress/cucumber-json
-          if-no-files-found: ignore
