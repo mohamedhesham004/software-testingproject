@@ -20,7 +20,7 @@ module.exports = defineConfig({
     baseUrl: 'https://practicesoftwaretesting.com',
 
     specPattern: [
-      'cypress/e2e/features/*/.feature'
+      'cypress/e2e/features/**/*.feature'
     ],
 
     viewportWidth: 1280,
